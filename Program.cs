@@ -1,11 +1,24 @@
+using Google.Cloud.Firestore;
+using oasis_backend.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Registrar Firestore
+builder.Services.AddSingleton(_ =>
+    new FirestoreDbBuilder
+    {
+        ProjectId = "oasis-app-6eb21"
+    }.Build()
+);
+
+// Registrar el servicio de productos
+builder.Services.AddScoped<ProductService>();
 
 var app = builder.Build();
 
